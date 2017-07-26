@@ -12,9 +12,9 @@ const bodyParser = require('body-parser')
 app.engine('handlebars',exphbs({defaultLayour: 'main'}));
 app.set('view engine', 'handlebars');
 
-app.use(bodyParser.urlencoded({ extended: false }))
-app.use(bodyParser.json())
-
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use('/css',express.static(__dirname + '/css'));
 
 app.get('/',function (req,res, score) {
     var answers = data.getAnswers();
@@ -25,19 +25,14 @@ app.get('/',function (req,res, score) {
     });
 });
 
-app.post('/test', function (req, res) {
-   if(req.body.cancer){data.increaseScore();}
-   res.redirect("/");
-});
-
 app.post('/answer',function (req,res) {
     console.log(req.body);
     if(req.body.type === "cancer") {
         data.increaseScore();
-        res.send('correct!');
+        res.send('true');
     }
     else{
-        res.send("WRONG");
+        res.send("false");
     }
 
 });

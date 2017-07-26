@@ -1,0 +1,13 @@
+#url {
+    display: none;
+}
+
+#next{
+    display: none;
+}
+.correct{
+    background-color: green;
+}
+.wrong{
+    background-color: red;
+}

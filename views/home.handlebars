@@ -1,32 +1,49 @@
 <h1>Which causes cancer according to the daily mail?</h1>
-<!--<form action="/test" method="POST">-->
         {{#each answers}}
-                    <button value="{{text}}" name="{{type}}" >{{text}} </button>
+            <button class="answer" value="{{text}}" name="{{type}}" id="{{type}}" >{{text}} </button>
         {{/each}}
-<!--</form>-->
+        {{#each answers}}
+            {{#if url}}
+                <p id="url">This is what the daily mail have to say <a href="{{url}}">{{url}}</a></p>
+            {{/if}}
+        {{/each}}
 
-<h2>{{scoreData}}</h2>
 
+<div>
+    <button id="next">Next</button>
+</div>
+<link rel="stylesheet" type="text/css" href="/css/index.css">
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function () {
-    $("button").click(function (e) {
-        console.log("clicked");
+    function showResult(data) {
+        var result = "Wrong! ";
+        $("#cancer").addClass("correct");
+        $("#fake").addClass("wrong");
+        $("#url").css("display", "block");
+        $("#next").css("display", "block");
+        if(data === "true"){
+            result = "Correct! "
+        }
+        $("#url").before("<p> " + result + "<p>")
+
+    }
+
+    $(".answer").click(function (e) {
         var val = $(this).attr("name");
-        console.log(val);
         $.ajax({
             type:"POST",
             url:"/answer",
             data: {
                 type: val
-            },
-            sucess: function (result) {
-                alert(result);
-            },
-            error: function (result) {
-                alert(result);
             }
+        }).done(function (data) {
+            showResult(data);
         })
+    });
+
+    $('#next').click(function () {
+        window.location.reload(true);
     })
 })
 
