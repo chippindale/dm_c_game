@@ -1,0 +1,33 @@
+<h1>Which causes cancer according to the daily mail?</h1>
+<!--<form action="/test" method="POST">-->
+        {{#each answers}}
+                    <button value="{{text}}" name="{{type}}" >{{text}} </button>
+        {{/each}}
+<!--</form>-->
+
+<h2>{{scoreData}}</h2>
+
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function () {
+    $("button").click(function (e) {
+        console.log("clicked");
+        var val = $(this).attr("name");
+        console.log(val);
+        $.ajax({
+            type:"POST",
+            url:"/answer",
+            data: {
+                type: val
+            },
+            sucess: function (result) {
+                alert(result);
+            },
+            error: function (result) {
+                alert(result);
+            }
+        })
+    })
+})
+
+</script>
