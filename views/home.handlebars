@@ -1,11 +1,9 @@
 <h1>Which causes cancer according to the daily mail?</h1>
         {{#each answers}}
-            <button class="answer" value="{{text}}" name="{{type}}" id="{{type}}" >{{text}} </button>
+            <button class="answer" value="{{text}}" id="{{id}}" >{{text}} </button>
         {{/each}}
         {{#each answers}}
-            {{#if url}}
                 <p id="url">This is what the daily mail have to say <a href="{{url}}">{{url}}</a></p>
-            {{/if}}
         {{/each}}
 
 
@@ -16,29 +14,33 @@
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function () {
-    function showResult(data) {
-        var result = "Wrong! ";
-        $("#cancer").addClass("correct");
-        $("#fake").addClass("wrong");
-        $("#url").css("display", "block");
+    function showResult(data,id) {
+        var result;
         $("#next").css("display", "block");
         if(data === "true"){
+            console.log("true!");
+            console.log(id);
+            $(".answer").addClass("wrong");
+            $('#' + id).removeClass("wrong").addClass("correct");
             result = "Correct! "
+        }else{
+            result = "Wrong! ";
+            $(".answer").addClass("correct");
+            $('#' + id).removeClass("correct").addClass("wrong");
         }
-        $("#url").before("<p> " + result + "<p>")
-
+        $("#url").before("<p> " + result + "<p>").css("display", "block");
     }
 
     $(".answer").click(function (e) {
-        var val = $(this).attr("name");
+        var id = $(this).attr("id");
         $.ajax({
             type:"POST",
             url:"/answer",
             data: {
-                type: val
+                id: id
             }
         }).done(function (data) {
-            showResult(data);
+            showResult(data,id);
         })
     });
 
