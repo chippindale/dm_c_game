@@ -1,11 +1,12 @@
 <h1>Which causes cancer according to the daily mail?</h1>
         {{#each answers}}
-            <button class="answer" value="{{text}}" id="{{id}}" >{{text}} </button>
+            <button class="answer" value="{{text}}" id="{{_id}}" >{{text}} </button>
         {{/each}}
         {{#each answers}}
+            {{#if url}}
                 <p id="url">This is what the daily mail have to say <a href="{{url}}">{{url}}</a></p>
+            {{/if}}
         {{/each}}
-
 
 <div>
     <button id="next">Next</button>
@@ -15,7 +16,7 @@
 <script type="text/javascript">
 $(document).ready(function () {
     function showResult(data,id) {
-        var result;
+        let result;
         $("#next").css("display", "block");
         if(data === "true"){
             console.log("true!");
@@ -32,7 +33,7 @@ $(document).ready(function () {
     }
 
     $(".answer").click(function (e) {
-        var id = $(this).attr("id");
+        let id = $(this).attr("id");
         $.ajax({
             type:"POST",
             url:"/answer",

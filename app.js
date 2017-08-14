@@ -6,7 +6,7 @@ const app = express();
 const exphbs = require('express-handlebars');
 const port = 3001;
 const bodyParser = require('body-parser');
-const db = require('./mongoose');
+const db = require('./db');
 app.engine('handlebars',exphbs({defaultLayout: 'main'}));
 app.set('view engine', 'handlebars');
 
@@ -15,10 +15,11 @@ app.use(bodyParser.json());
 app.use('/css',express.static(__dirname + '/css'));
 
 
-app.get('/',function (req,res, score) {
-    var answers = db.getAnswers();
-    res.render('home', {
-        answers: answers
+app.get('/',function (req,res) {
+    db.getAnswers().then(function (answer) {
+        res.render('home',{
+            answers:answer,
+        })
     });
 });
 
