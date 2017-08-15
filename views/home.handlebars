@@ -1,16 +1,27 @@
-<h1>Which causes cancer according to the daily mail?</h1>
+<div class="container">
+    <div class="row justify-content-center">
+        <h1>Which causes cancer according to the Daily Mail?</h1>
+    </div>
+    <div class="row ">
         {{#each answers}}
-            <button class="answer" value="{{text}}" id="{{_id}}" >{{text}} </button>
+        <div class="col text-center top5">
+            <button class="answer btn btn-secondary btn-block" value="{{text}}" id="{{_id}}" >{{text}} </button>
+        </div>
         {{/each}}
+    </div>
+    <div class="row justify-content-center">
         {{#each answers}}
             {{#if url}}
                 <p id="url">This is what the daily mail have to say <a href="{{url}}">{{url}}</a></p>
             {{/if}}
         {{/each}}
-
-<div>
-    <button id="next">Next</button>
+    </div>
+    <div class="row justify-content-center">
+        <button id="next" class="btn btn-primary">Next</button>
+    </div>
 </div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
 <link rel="stylesheet" type="text/css" href="/css/index.css">
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script type="text/javascript">
@@ -21,15 +32,15 @@ $(document).ready(function () {
         if(data === "true"){
             console.log("true!");
             console.log(id);
-            $(".answer").addClass("wrong");
-            $('#' + id).removeClass("wrong").addClass("correct");
+            $(".answer").addClass("btn-danger");
+            $('#' + id).removeClass("btn-danger").addClass("btn-success");
             result = "Correct! "
         }else{
             result = "Wrong! ";
-            $(".answer").addClass("correct");
-            $('#' + id).removeClass("correct").addClass("wrong");
+            $(".answer").addClass("btn-success");
+            $('#' + id).removeClass("btn-success").addClass("btn-danger");
         }
-        $("#url").before("<p> " + result + "<p>").css("display", "block");
+        $("#url").before("<p class='top5'> " + result + "<p>").css("display", "block");
     }
 
     $(".answer").click(function (e) {

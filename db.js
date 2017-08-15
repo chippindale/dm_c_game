@@ -2,6 +2,7 @@
  * Created by Chloe on 27/07/2017.
  */
 const mongoose = require("mongoose");
+const fs = require('fs');
 mongoose.connect("mongodb://localhost/dm");
 const db = mongoose.connection;
 db.on('error', console.error.bind('console','connection error: '));
@@ -15,23 +16,27 @@ let answerSchema = mongoose.Schema({
 });
 const Answer = mongoose.model('Answer', answerSchema);
 
-    let answerInput = [new Answer({text: "Dog",type:"cancer",url: "http://www.dailymail.co.uk/health/article-490581/Can-dogs-breast-cancer-Bizarre-medical-theories-experts-claim-actually-true.html"}),
-    new Answer({text: "Cat",type:"fake"}),
-
-    ];
-
-function saveAnswers() {
-    for(let i = 0; i < answerInput.length; i++){
-        answerInput[i].save(function (err, answer) {
-            if (err) return console.error(err)
-        });
-    }
+function saveAnswersPromise(file, encoding){
+    return new Promise(function (resolve, reject) {
+        fs.readFile(file,encoding, function (err,data) {
+            if (err) return console.error(err);
+            resolve(data)
+        })
+    })
 }
+
+saveAnswersPromise('data.json','utf8').then(data => {
+    return JSON.parse(data);
+}).then(data =>{
+    for(item of data){
+       let answer = new Answer({text: item.text, type:"cancer", url: item.url})
+        answer.save(function (err) {
+            if(err) return console.error(err);
+        })
+    }
+});
 Answer.remove({},function () {
 });
-saveAnswers();
-
-
 
 exports.Answer = Answer;
 module.exports = {
@@ -43,7 +48,6 @@ module.exports = {
             let max = results.length;
             let randomnum = Math.floor(Math.random() * max);
             answers[0] = results[randomnum];
-
         });
         const answer2 = await Answer.find({type: "fake"},function (err, results) {
             if(err) return console.error(err);
