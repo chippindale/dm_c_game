@@ -18,7 +18,7 @@ app.use('/css',express.static(__dirname + '/css'));
 app.get('/',function (req,res) {
     db.getAnswers().then(function (answer) {
         res.render('home',{
-            answers:answer,
+            answers:answer
         })
     });
 });

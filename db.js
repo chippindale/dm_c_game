@@ -16,7 +16,9 @@ let answerSchema = mongoose.Schema({
 });
 const Answer = mongoose.model('Answer', answerSchema);
 
-function saveAnswersPromise(file, encoding){
+
+
+function saveAnswersCancer(file, encoding){
     return new Promise(function (resolve, reject) {
         fs.readFile(file,encoding, function (err,data) {
             if (err) return console.error(err);
@@ -24,8 +26,25 @@ function saveAnswersPromise(file, encoding){
         })
     })
 }
+ function saveAnswersFake() {
+     let fakeAnswers = ["CATS","JAVASCRIPT","CLASSMATES","ORANGES","MCDONALDS",
+         "DOCTORS","BEING BRITISH","FOREIGNERS","JEANS","EARTH SPIRIT",
+         "MEETINGS","FRANCE","STRAWBERRIES","YOUR NAN","TREES",
+         "GRASS","DMITRY","LIFTING","CHAIRS","LEAGUE OF LEGENDS",
+         "READING THE DAILY MAIL","PAINT","DONALD TRUMP","HAVING SMALL HANDS","SOCIAL BENEFITS",
+         "THE NHS","MECHANICAL KEYBOARDS","PUTIN","THE BBC","STAMPS",
+         "SNAKES"
+     ];
+     for(item of fakeAnswers){
+         let answer = new Answer({text: item, type:"fake"});
+         answer.save(function (err) {
+             if(err) return console.error(err);
+         })
+     }
+}
+saveAnswersFake();
 
-saveAnswersPromise('data.json','utf8').then(data => {
+saveAnswersCancer('data.json','utf8').then(data => {
     return JSON.parse(data);
 }).then(data =>{
     for(item of data){
