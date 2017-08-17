@@ -54,6 +54,7 @@ saveAnswersCancer('data.json','utf8').then(data => {
         })
     }
 });
+
 Answer.remove({},function () {
 });
 
@@ -62,6 +63,7 @@ module.exports = {
     Answer : Answer,
     getAnswers: async function(){
         let answers = new Array(2);
+        let swap = Math.random() >= 0.5;
         const answer1 = await Answer.find({type: "cancer"}, function (err, results) {
             if(err) return console.error(err);
             let max = results.length;
@@ -74,6 +76,13 @@ module.exports = {
             let randomnum = Math.floor(Math.random() * max);
             answers[1] = results[randomnum];
         });
-        return answers;
+        if(swap){
+          let temp = answers[0];
+          answers[0] = answers[1];
+          answers[1] = temp;
+          return answers;
+        }else {
+            return answers;
+        }
     }
 };
