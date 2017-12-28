@@ -4,6 +4,7 @@
   "description": "a website about the daily mail and its quest to cure cancer.",
   "main": "app.js",
   "scripts": {
+    "start": "node app.js",
     "test": "run app.js"
   },
   "author": "chloe chippindale",

@@ -48,8 +48,10 @@ $(document).ready(function () {
             $(".answer").addClass("btn-success");
             $('#' + id).removeClass("btn-success").addClass("btn-danger");
         }
-        $("#urlRow").before("<div class='row justify-content-center'><p class='top5'> " + result + "<p></div>");
-        $("#url").css("display", "block");
+        if (!$('#result').length) {
+            $("#urlRow").before("<div id='result' class='row justify-content-center'><p class='top5'> " + result + "<p></div>");
+            $("#url").css("display", "block");
+        }
     }
 
     $(".answer").click(function (e) {
